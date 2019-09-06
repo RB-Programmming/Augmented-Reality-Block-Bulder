@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>A-Frame - Image Textures</title>
+	<script src="js/aframe-master.min.js"></script>
+</head>
+
+<body>
+
+<div style="position:relative;">
+
+	<a-scene antialias="true">
+		
+		<a-assets>
+			<img id="grid" src="images/border.png" crossorigin="anonymous" />
+			<img id="sky" src="images/stars.jpg" crossorigin="anonymous" />
+		</a-assets>
+			
+		<a-sky 
+			color = "#FFFFFF"
+			material = "src: #sky">
+		</a-sky>
+
+		<a-plane
+			id = "p"
+			width="100" height="100"
+			position=" 0.00 0.00 0.00" 
+			rotation="-90 0 0" 
+			color="#888888" 
+			material="src: #grid; repeat:100 100; transparent: true; opacity: 0.75"
+			shadow="cast: false; receive: true">
+		</a-plane>
+	
+	</a-scene>
+	
+	<div style="border: 0px solid green; position:absolute; top:0px; left:0px; z-index:1000; width:100%; height:100%; display:inline">
+	
+        <!-- your overlay content here -->
+		
+		<p style="font: bold 24px Arial; color: white; text-shadow:1px 1px 0 red;">
+		Click the button!
+		</p>
+
+		<div style="display:inline-block; vertical-align: middle;">
+			<img style="display:inline-block; vertical-align: middle;" src="buttons/add.png" onclick="addNewBox();" />
+			
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/addz.png" onclick="moveBox(0, 0, 0.5);" />
+				<br/>
+				<img src="buttons/losez.png" onclick="moveBox(0, 0, -0.5);" />
+			</div>
+			
+			<img style="display:inline-block; vertical-align: middle;" src="buttons/left.png" onclick="moveBox(-0.5, 0, 0);" />
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/up.png" onclick="moveBox(0, 0.5, 0);" />
+				<br/>
+				<img src="buttons/down.png" onclick="moveBox(0, -0.5, 0);" />
+			</div>
+			<img style="display:inline-block; vertical-align: middle;" src="buttons/right.png" onclick="moveBox(0.5, 0, 0);" />
+			
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/color-red.png" onclick="setColor('red');" />
+				<br/>
+				<img src="buttons/green.png" onclick="setColor('green');" />
+			</div>
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/color-orange.png" onclick="setColor('orange');" />
+				<br/>
+				<img src="buttons/blue.png" onclick="setColor('blue');" />
+			</div>
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/yellow.png" onclick="setColor('yellow');" />
+				<br/>
+				<img src="buttons/purple.png" onclick="setColor('purple');" />
+			</div>
+			<div style="display:inline-block; vertical-align: middle;">
+				<img src="buttons/white.png" onclick="setColor('white');" />
+				<br/>
+				<img src="buttons/black.png" onclick="setColor('black');" />
+			</div>
+		</div>
+    </div>
+	
+</div>
+<script>
+
+let myFunction = function(message)
+{
+	alert(message);
+};
+
+let addNewBox = function()
+{
+	let scene = document.querySelector('a-scene');
+	
+	boxy = document.createElement('a-box');
+	
+	boxy.setAttribute("color", "yellow");
+	boxy.setAttribute("material", "src", "#grid");
+	
+	scene.appendChild(boxy);
+}
+
+let moveBox = function(x, y, z)
+{
+	let positionObject = boxy.getAttribute("position");
+	positionObject.x += x;
+	positionObject.y += y;
+	positionObject.z += z;
+	boxy.setAttribute("position", positionObject);
+}
+
+let setColor = function(colorName)
+{
+	boxy.setAttribute("color", colorName);
+}
+
+
+// boxy will refer to the most recently created box object.
+let boxy = null;
+
+
+
+document.addEventListener(
+	"keydown",
+	function(event)
+	{
+		let plane = document.querySelector("#p");
+		
+		if (event.key == "g")
+			plane.setAttribute("color", "green");
+		if (event.key == "r")
+			plane.setAttribute("color", "red");
+	
+		if (event.key == "ArrowUp")
+		{
+			let positionObject = boxy.getAttribute("position");
+			positionObject.y += 0.5;
+			boxy.setAttribute("position", positionObject);
+		}
+		
+		if (event.key == "ArrowDown")
+		{
+			let positionObject = boxy.getAttribute("position");
+			positionObject.y -= 0.5;
+			boxy.setAttribute("position", positionObject);
+		}
+		
+		
+		if (event.key == "n")
+			addNewBox();
+		
+	
+	}
+);
+
+
+</script>
+
+
+</body>
+</html>
